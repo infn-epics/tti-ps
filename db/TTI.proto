@@ -80,3 +80,8 @@ getEventStatus {         #stato errori
     out "\x14\x01*ESR?";
     in "%d";
 }
+
+getLimitStatus {
+    out "\x14\x01LSR?";
+    in "%d";
+}

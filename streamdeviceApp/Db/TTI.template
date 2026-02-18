@@ -16,6 +16,7 @@ record(ao, "$(P)$(R)Voltage-SP") {
     field(PREC, "3")
     field(DRVL, "0")
     field(DRVH, "35")
+    field(FLNK, "$(P)$(R)Autoramp")
 }
 record(ai, "$(P)$(R)Voltage-SP-RB") {
     field(DTYP, "stream")
@@ -31,6 +32,7 @@ record(ao, "$(P)$(R)Current-SP") {
     field(DTYP, "stream")
     field(OUT,  "@tti.proto setCurrent TTI1")
     field(PREC, "3")
+    field(FLNK, "$(P)$(R)Autoramp")
 }
 
 record(ai, "$(P)$(R)Current-RB") {
@@ -56,6 +58,17 @@ record(bo, "$(P)$(R)Output") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
     field(DESC, "Output ON/OFF control")
+}
+
+record(calcout, "$(P)$(R)Autoramp") {
+    field(DESC, "Auto-enable output when V and I set")
+    field(INPA, "$(P)$(R)Voltage-SP")
+    field(INPB, "$(P)$(R)Current-SP")
+    field(CALC, "(A>0)&&(B>0)?1:0")
+    field(OUT, "$(P)$(R)Output PP")
+    field(OOPT, "When Non-zero")
+    field(DOPT, "Use CALC")
+    field(ODLY, "0.5")
 }
 
 # over current protection
@@ -120,9 +133,27 @@ record(longin, "$(P)$(R)StatusByte-RB") {
     field(DESC, "Status Byte Register")
 }
 
-record(longin, "$(P)$(R)EventStatus-RB") {
+# record(longin, "$(P)$(R)EventStatus-RB") {
+#     field(DTYP, "stream")
+#     field(INP, "@TTI.proto getEventStatus $(PORT)")
+#     field(SCAN, "Passive")
+#     field(DESC, "Standard Event Status Register")
+# }
+
+record(mbbiDirect, "$(P)$(R)EventStatus-RB") {
     field(DTYP, "stream")
     field(INP, "@TTI.proto getEventStatus $(PORT)")
-    field(SCAN, "Passive")
+    field(SCAN, "1 second")
     field(DESC, "Standard Event Status Register")
+    field(NOBT, "8")          
+    field(SHFT, "0")          
+}
+
+record(mbbiDirect, "$(P)$(R)LimitStatus-RB") {
+    field(DTYP, "stream")
+    field(INP, "@TTI.proto getLimitStatus $(PORT)")
+    field(SCAN, "1 second")   
+    field(DESC, "Limit Event Status Register")
+    field(NOBT, "8")
+    field(SHFT, "0")
 }
