@@ -6,7 +6,7 @@ ExtraInput = Ignore;
 # voltege
 getVoltageRbv {
     out "VO?";
-    in " %fV";
+    in "%fV";
 }
 
 getVoltageSetpoint {
@@ -25,7 +25,7 @@ setCurrent {
 
 getCurrent {
     out "IO?";
-    in " %fA";
+    in "%fA";
 }
 
 getCurrentSetpoint {
